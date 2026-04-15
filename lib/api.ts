@@ -20,13 +20,15 @@ export interface CreateNoteRequest {
 
 export const fetchNotes = async (
   page: number,
-  search: string
+  search: string,
+  tag?: string
 ): Promise<FetchNotesResponse> => {
   const response = await axios.get("/notes", {
     params: {
       page,
       perPage: 12,
       search,
+      ...(tag ? { tag } : {}),
     },
     headers: {
       Authorization: `Bearer ${token}`,

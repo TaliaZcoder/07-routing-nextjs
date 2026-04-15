@@ -1,14 +1,25 @@
+type Props = {
+  children: React.ReactNode;
+  sidebar: React.ReactNode;
+};
+
 export default function NotesLayout({
   children,
   sidebar,
-}: {
-  children: React.ReactNode;
-  sidebar: React.ReactNode;
-}) {
+}: Props) {
   return (
-    <div style={{ display: "flex", gap: "24px" }}>
+    <div
+      style={{
+        display: "flex",
+        gap: "32px",
+        alignItems: "flex-start",
+      }}
+    >
       <aside>{sidebar}</aside>
-      <main>{children}</main>
+
+      <section style={{ flex: 1 }}>
+        {children}
+      </section>
     </div>
   );
 }

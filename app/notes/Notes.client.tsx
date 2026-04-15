@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useQuery, keepPreviousData} from "@tanstack/react-query";
 import { fetchNotes } from "@/lib/api";
@@ -15,59 +15,140 @@ import Pagination from "@/components/Pagination/Pagination";
 import Modal from "@/components/Modal/Modal";
 import NoteForm from "@/components/NoteForm/NoteForm";
 
+type Props = {
+  tag?: string;
+};
 
-
-export default function App() {
+export default function NotesClient({
+  tag = "",
+}: Props) {
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [search, setSearch] =
+    useState("");
 
-  const debouncedSearch = useDebouncedCallback((value: string) => {
-    setSearch(value);
-    setPage(1);
-  }, 500);
+  const [isModalOpen, setIsModalOpen] =
+    useState(false);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["notes", page, search],
-    queryFn: () => fetchNotes(page, search),
+  const debouncedSearch =
+    useDebouncedCallback(
+      (value: string) => {
+        setSearch(value);
+        setPage(1);
+      },
+      500
+    );
 
-    placeholderData: keepPreviousData,
+  const {
+    data,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: [
+      "notes",
+      page,
+      search,
+      tag,
+    ],
+
+    queryFn: () =>
+      fetchNotes(
+        page,
+        search,
+        tag
+      ),
+
+    placeholderData:
+      keepPreviousData,
   });
 
-  const notes = data?.notes ?? [];
-  const totalPages = data?.totalPages ?? 0;
+  const notes =
+    data?.notes ?? [];
+
+  const totalPages =
+    data?.totalPages ?? 0;
 
   return (
     <div className={css.app}>
-      <header className={css.toolbar}>
-        <SearchBox onChange={debouncedSearch} />
+      <header
+        className={css.toolbar}
+      >
+        <SearchBox
+          onChange={
+            debouncedSearch
+          }
+        />
 
         {totalPages > 1 && (
           <Pagination
-            totalPages={totalPages}
-            currentPage={page}
-            onChange={setPage}
+            totalPages={
+              totalPages
+            }
+            currentPage={
+              page
+            }
+            onChange={
+              setPage
+            }
           />
         )}
 
         <button
-          className={css.button}
-          onClick={() => setIsModalOpen(true)}
+          className={
+            css.button
+          }
+          onClick={() =>
+            setIsModalOpen(
+              true
+            )
+          }
         >
           Create note +
         </button>
       </header>
 
-      {isLoading && <p>Loading...</p>}
-      {isError && <p>Error loading notes</p>}
+      {isLoading && (
+        <p>
+          Loading, please
+          wait...
+        </p>
+      )}
 
-      {notes.length > 0 && <NoteList notes={notes} />}
+      {isError && (
+        <p>
+          Something went
+          wrong.
+        </p>
+      )}
 
-      {!isLoading && notes.length === 0 && <p>No notes found</p>}
+      {notes.length > 0 && (
+        <NoteList
+          notes={notes}
+        />
+      )}
+
+      {!isLoading &&
+        notes.length ===
+          0 && (
+          <p>
+            No notes found.
+          </p>
+        )}
 
       {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <NoteForm onClose={() => setIsModalOpen(false)} />
+        <Modal
+          onClose={() =>
+            setIsModalOpen(
+              false
+            )
+          }
+        >
+          <NoteForm
+            onClose={() =>
+              setIsModalOpen(
+                false
+              )
+            }
+          />
         </Modal>
       )}
     </div>
