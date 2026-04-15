@@ -1,20 +1,20 @@
 import NotesClient from "./Notes.client";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string[];
-  };
+  }>;
 };
 
-export default function FilterPage({
+export default async function FilterPage({
   params,
 }: Props) {
-  const currentTag = params.slug?.[0];
+  const { slug } = await params;
 
   const tag =
-    currentTag === "all"
+    slug?.[0] === "all"
       ? ""
-      : currentTag;
+      : slug?.[0];
 
   return <NotesClient tag={tag} />;
 }
