@@ -67,3 +67,4 @@ export const deleteNote = async (id: string): Promise<Note> => {
 
   return response.data;
 };
+
