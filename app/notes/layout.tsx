@@ -1,6 +1,6 @@
 type Props = {
   children: React.ReactNode;
-  sidebar: React.ReactNode;
+  sidebar?: React.ReactNode;
   modal?: React.ReactNode;
 };
 
