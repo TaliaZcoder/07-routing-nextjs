@@ -6,7 +6,6 @@ import {
 
 import { fetchNoteById } from "@/lib/api";
 
-import Modal from "@/components/Modal/Modal";
 import NotePreview from "./NotePreview.client";
 
 type Props = {
@@ -30,7 +29,6 @@ export default async function NoteModalPage({
   });
 
   return (
-    <Modal>
       <HydrationBoundary
         state={dehydrate(
           queryClient
@@ -38,6 +36,5 @@ export default async function NoteModalPage({
       >
         <NotePreview />
       </HydrationBoundary>
-    </Modal>
   );
 }
