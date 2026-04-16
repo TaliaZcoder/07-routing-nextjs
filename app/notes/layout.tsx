@@ -1,12 +1,10 @@
 type Props = {
   children: React.ReactNode;
-  sidebar?: React.ReactNode;
   modal?: React.ReactNode;
 };
 
 export default function NotesLayout({
     children,
-    sidebar,
     modal,
 }: Props) {
     return (
@@ -18,7 +16,7 @@ export default function NotesLayout({
             alignItems: "flex-start",
         }}
         >
-        <aside>{sidebar}</aside>
+        
 
         <section style={{ flex: 1 }}>
             {children}
